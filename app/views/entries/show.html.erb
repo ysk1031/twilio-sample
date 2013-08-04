@@ -1,29 +1,24 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>Name:</strong>
+  <strong><%= Entry.human_attribute_name :name %></strong>
   <%= @entry.name %>
 </p>
 
 <p>
-  <strong>Email:</strong>
+  <strong><%= Entry.human_attribute_name :email %></strong>
   <%= @entry.email %>
 </p>
 
 <p>
-  <strong>Mobile number:</strong>
+  <strong><%= Entry.human_attribute_name :mobile_number %></strong>
   <%= @entry.mobile_number %>
 </p>
 
 <p>
-  <strong>Verification code:</strong>
-  <%= @entry.verification_code %>
-</p>
-
-<p>
-  <strong>Verified:</strong>
+  <strong><%= Entry.human_attribute_name :verified %></strong>
   <%= @entry.verified %>
 </p>
 
-<%= link_to 'Edit', edit_entry_path(@entry) %> |
-<%= link_to 'Back', entries_path %>
+<%= link_to t('view.form.edit'), edit_entry_path(@entry) %> |
+<%= link_to t('view.form.back_to_index'), entries_path %>

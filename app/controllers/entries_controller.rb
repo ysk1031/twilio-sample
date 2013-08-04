@@ -1,5 +1,6 @@
 class EntriesController < ApplicationController
   before_action :set_entry, only: [:show, :edit, :update, :destroy]
+  before_action :load_not_verified_entry, only: [:verification_code_input, :verification]
 
   def index
     @entries = Entry.all
@@ -20,11 +21,9 @@ class EntriesController < ApplicationController
 
     respond_to do |format|
       if @entry.save
-        format.html { redirect_to @entry, notice: 'Entry was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @entry }
+        format.html { redirect_to entry_verification_code_input_path(@entry) }
       else
         format.html { render action: 'new' }
-        format.json { render json: @entry.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -32,11 +31,9 @@ class EntriesController < ApplicationController
   def update
     respond_to do |format|
       if @entry.update(entry_params)
-        format.html { redirect_to @entry, notice: 'Entry was successfully updated.' }
-        format.json { head :no_content }
+        format.html { redirect_to @entry, notice: I18n.t('notice.update', name: @entry.class.model_name.human) }
       else
         format.html { render action: 'edit' }
-        format.json { render json: @entry.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -45,7 +42,17 @@ class EntriesController < ApplicationController
     @entry.destroy
     respond_to do |format|
       format.html { redirect_to entries_url }
-      format.json { head :no_content }
+    end
+  end
+
+  def verification_code_input
+  end
+
+  def verification
+    if @entry.verify_and_save(params[:entry])
+      redirect_to @entry, notice: I18n.t('notice.create', name: @entry.class.model_name.human)
+    else
+      render :verification_code_input
     end
   end
 
@@ -55,6 +62,10 @@ class EntriesController < ApplicationController
     end
 
     def entry_params
-      params.require(:entry).permit(:name, :email, :mobile_number, :verification_code, :verified)
+      params.require(:entry).permit(:name, :email, :mobile_number, :verification_code,  :verified, :verification_code_confirmation)
+    end
+
+    def load_not_verified_entry
+      @entry = Entry.not_verified.id_is(params[:entry_id]).last
     end
 end

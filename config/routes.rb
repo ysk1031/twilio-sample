@@ -1,7 +1,11 @@
 TwilioSample::Application.routes.draw do
-  resources :entries
+  resources :entries do
+    get 'verification_code_input'
+    put 'verification'
+    patch 'verification'
+  end
 
-  root 'entries#idnex'
+  root 'entries#index'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

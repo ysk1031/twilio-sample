@@ -1,6 +1,6 @@
-<h1>Editing entry</h1>
+<h1><%= "#{Entry.model_name.human}#{t('view.form.edit')}" %></h1>
 
 <%= render 'form' %>
 
-<%= link_to 'Show', @entry %> |
-<%= link_to 'Back', entries_path %>
+<%= link_to t('view.form.back_to_show'), @entry %> |
+<%= link_to t('view.form.back_to_index'), entries_path %>

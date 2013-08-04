@@ -1,0 +1,9 @@
+<h1><%= "#{Entry.human_attribute_name :verification_code_confirmation}の入力" %></h1>
+
+<%= simple_form_for @entry, url: entry_verification_path(@entry) do |f| %>
+  <%= f.error_notification %>
+
+  <%= f.input :verification_code_confirmation, value: "" %>
+
+  <%= f.submit "#{Entry.human_attribute_name :verification_code}登録", class: 'btn btn-primary' %>
+<% end %>

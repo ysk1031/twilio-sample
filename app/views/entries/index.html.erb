@@ -8,8 +8,10 @@
       <th><%= Entry.human_attribute_name :name %></th>
       <th><%= Entry.human_attribute_name :email %></th>
       <th><%= Entry.human_attribute_name :mobile_number %></th>
-      <th><%= Entry.human_attribute_name :verification_code %></th>
       <th><%= Entry.human_attribute_name :verified %></th>
+      <th></th>
+      <th></th>
+      <th></th>
     </tr>
   </thead>
 
@@ -19,11 +21,10 @@
         <td><%= entry.name %></td>
         <td><%= entry.email %></td>
         <td><%= entry.mobile_number %></td>
-        <td><%= entry.verification_code %></td>
         <td><%= entry.verified %></td>
-        <td><%= link_to 'Show', entry %></td>
-        <td><%= link_to 'Edit', edit_entry_path(entry) %></td>
-        <td><%= link_to 'Destroy', entry, method: :delete, data: { confirm: t('view.form.comfirm') } %></td>
+        <td><%= link_to t('view.form.show'), entry %></td>
+        <td><%= link_to t('view.form.edit'), edit_entry_path(entry) %></td>
+        <td><%= link_to t('view.form.destroy'), entry, method: :delete, data: { confirm: t('view.form.confirm') } %></td>
       </tr>
     <% end %>
   </tbody>
