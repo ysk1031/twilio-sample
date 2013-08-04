@@ -1,37 +1,9 @@
-<%= form_for(@entry) do |f| %>
-  <% if @entry.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@entry.errors.count, "error") %> prohibited this entry from being saved:</h2>
+<%= simple_form_for @entry do |f| %>
+  <%= f.error_notification %>
 
-      <ul>
-      <% @entry.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+  <%= f.input :name, placeholder: '山本太郎' %>
+  <%= f.input :email, placeholder: 'hoge@gmail.com' %>
+  <%= f.input :mobile_number, placeholder: '09012345678' %>
 
-  <div class="field">
-    <%= f.label :name %><br>
-    <%= f.text_field :name %>
-  </div>
-  <div class="field">
-    <%= f.label :email %><br>
-    <%= f.text_field :email %>
-  </div>
-  <div class="field">
-    <%= f.label :mobile_number %><br>
-    <%= f.text_field :mobile_number %>
-  </div>
-  <div class="field">
-    <%= f.label :verification_code %><br>
-    <%= f.text_field :verification_code %>
-  </div>
-  <div class="field">
-    <%= f.label :verified %><br>
-    <%= f.check_box :verified %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+  <%= f.button :submit, '次へ', class: 'btn btn-primary'   %>
 <% end %>

@@ -1,16 +1,15 @@
-<h1>Listing entries</h1>
+<h1><%= "#{Entry.model_name.human}一覧" %></h1>
 
-<table>
+<%= link_to t('view.form.new'), new_entry_path %>
+
+<table class="table table-bordered">
   <thead>
     <tr>
-      <th>Name</th>
-      <th>Email</th>
-      <th>Mobile number</th>
-      <th>Verification code</th>
-      <th>Verified</th>
-      <th></th>
-      <th></th>
-      <th></th>
+      <th><%= Entry.human_attribute_name :name %></th>
+      <th><%= Entry.human_attribute_name :email %></th>
+      <th><%= Entry.human_attribute_name :mobile_number %></th>
+      <th><%= Entry.human_attribute_name :verification_code %></th>
+      <th><%= Entry.human_attribute_name :verified %></th>
     </tr>
   </thead>
 
@@ -24,12 +23,8 @@
         <td><%= entry.verified %></td>
         <td><%= link_to 'Show', entry %></td>
         <td><%= link_to 'Edit', edit_entry_path(entry) %></td>
-        <td><%= link_to 'Destroy', entry, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Destroy', entry, method: :delete, data: { confirm: t('view.form.comfirm') } %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
-
-<br>
-
-<%= link_to 'New Entry', new_entry_path %>
