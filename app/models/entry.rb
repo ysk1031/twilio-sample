@@ -2,12 +2,12 @@ class Entry < ActiveRecord::Base
   attr_accessor :verification_code_confirmation
 
   validates_presence_of :name, :email, :mobile_number
+  validates :mobile_number, format: { with: /\A\d{11}\z/ }
 
   scope :id_is, ->id{ where(id: id) }
   scope :not_verified, ->{ where(verified: false) }
 
   after_create :issue_verification_code
-  after_create :send_verification_code
 
   VERIFICATION_CODE_LENGTH = 4
 
@@ -23,13 +23,31 @@ class Entry < ActiveRecord::Base
     end
   end
 
+  def send_verification_code
+    @call = twilio_client.account.calls.create(
+      from: TWILIO_PHONE_NUMBER,
+      to: formatted_mobile_number,
+      url: "#{APP_URL}/entries/#{self.id}/verification_call.xml"
+    )
+
+    #twilio_client.account.sms.messages.create(
+    #  from: TWILIO_PHONE_NUMBER,
+    #  to: formatted_mobile_number,
+    #  body: "こんにちは。以下の認証コードを入力してください。\n#{self.verification_code}"
+    #)
+  end
+
   private
   def issue_verification_code
     self.verification_code = [*0..9].sample(VERIFICATION_CODE_LENGTH).join
     self.save!
   end
 
-  def send_verification_code
+  def twilio_client
+    @twilio_client ||= Twilio::REST::Client.new(TWILIO_SID, TWILIO_TOKEN)
+  end
 
+  def formatted_mobile_number
+    "+81#{self.mobile_number[1..-1]}"
   end
 end

@@ -1,4 +1,10 @@
-<h1><%= "#{Entry.human_attribute_name :verification_code_confirmation}の入力" %></h1>
+<h1><%= "#{Entry.human_attribute_name :verification_code_confirmation}の確認" %></h1>
+
+<P>登録していただいた電話番号に発信し、認証コードをお伝えします。</p>
+
+<p><%= link_to '電話を発信する', entry_call_on_phone_path(@entry), remote: true, class: 'btn' %><span class="call_condition"></span></p>
+
+<legend>認証コードの入力</legend>
 
 <%= simple_form_for @entry, url: entry_verification_path(@entry) do |f| %>
   <%= f.error_notification %>

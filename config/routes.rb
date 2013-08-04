@@ -3,7 +3,10 @@ TwilioSample::Application.routes.draw do
     get 'verification_code_input'
     put 'verification'
     patch 'verification'
+    get 'verification_call'
+    get 'call_on_phone'
   end
+
 
   root 'entries#index'
 

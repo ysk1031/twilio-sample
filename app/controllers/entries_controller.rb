@@ -1,6 +1,6 @@
 class EntriesController < ApplicationController
   before_action :set_entry, only: [:show, :edit, :update, :destroy]
-  before_action :load_not_verified_entry, only: [:verification_code_input, :verification]
+  before_action :load_not_verified_entry, only: [:verification_code_input, :verification, :verification_call, :call_on_phone]
 
   def index
     @entries = Entry.all
@@ -18,7 +18,6 @@ class EntriesController < ApplicationController
 
   def create
     @entry = Entry.new(entry_params)
-
     respond_to do |format|
       if @entry.save
         format.html { redirect_to entry_verification_code_input_path(@entry) }
@@ -56,16 +55,29 @@ class EntriesController < ApplicationController
     end
   end
 
+  def verification_call
+    response = Twilio::TwiML::Response.new do |r|
+      r.Say "こんにちは！ご登録ありがとうございます。あなたの認証コードは、#{@entry.verification_code}です。",
+        voice: 'woman'
+    end
+
+    render xml: response.text
+  end
+
+  def call_on_phone
+    @entry.send_verification_code
+  end
+
   private
-    def set_entry
-      @entry = Entry.find(params[:id])
-    end
+  def set_entry
+    @entry = Entry.find(params[:id])
+  end
 
-    def entry_params
-      params.require(:entry).permit(:name, :email, :mobile_number, :verification_code,  :verified, :verification_code_confirmation)
-    end
+  def entry_params
+    params.require(:entry).permit(:name, :email, :mobile_number, :verification_code,  :verified)
+  end
 
-    def load_not_verified_entry
-      @entry = Entry.not_verified.id_is(params[:entry_id]).last
-    end
+  def load_not_verified_entry
+    @entry = Entry.not_verified.id_is(params[:entry_id]).last
+  end
 end
