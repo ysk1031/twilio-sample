@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @entry.name %>
+</p>
+
+<p>
+  <strong>Email:</strong>
+  <%= @entry.email %>
+</p>
+
+<p>
+  <strong>Mobile number:</strong>
+  <%= @entry.mobile_number %>
+</p>
+
+<p>
+  <strong>Verification code:</strong>
+  <%= @entry.verification_code %>
+</p>
+
+<p>
+  <strong>Verified:</strong>
+  <%= @entry.verified %>
+</p>
+
+<%= link_to 'Edit', edit_entry_path(@entry) %> |
+<%= link_to 'Back', entries_path %>

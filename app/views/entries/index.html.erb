@@ -1,0 +1,35 @@
+<h1>Listing entries</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Mobile number</th>
+      <th>Verification code</th>
+      <th>Verified</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @entries.each do |entry| %>
+      <tr>
+        <td><%= entry.name %></td>
+        <td><%= entry.email %></td>
+        <td><%= entry.mobile_number %></td>
+        <td><%= entry.verification_code %></td>
+        <td><%= entry.verified %></td>
+        <td><%= link_to 'Show', entry %></td>
+        <td><%= link_to 'Edit', edit_entry_path(entry) %></td>
+        <td><%= link_to 'Destroy', entry, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Entry', new_entry_path %>
