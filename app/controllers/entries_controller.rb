@@ -1,6 +1,7 @@
 class EntriesController < ApplicationController
   before_action :set_entry, only: [:show, :edit, :update, :destroy]
   before_action :load_not_verified_entry, only: [:verification_code_input, :verification, :verification_call, :call_on_phone]
+  skip_before_action :verify_authenticity_token, only: [:verification_call]
 
   def index
     @entries = Entry.all
@@ -58,9 +59,8 @@ class EntriesController < ApplicationController
   def verification_call
     response = Twilio::TwiML::Response.new do |r|
       r.Say "こんにちは！ご登録ありがとうございます。あなたの認証コードは、#{@entry.verification_code}です。",
-        voice: 'woman'
+        voice: 'woman', language: 'ja-jp'
     end
-
     render xml: response.text
   end
 
