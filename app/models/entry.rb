@@ -25,9 +25,9 @@ class Entry < ActiveRecord::Base
 
   def send_verification_code
     @call = twilio_client.account.calls.create(
-      from: TWILIO_PHONE_NUMBER,
+      from: (ENV['TWILIO_PHONE_NUMBER'] || TWILIO_PHONE_NUMBER),
       to: formatted_mobile_number,
-      url: "#{APP_URL}/entries/#{self.id}/verification_call.xml"
+      url: "#{ENV['APP_URL'] || APP_URL}/entries/#{self.id}/verification_call.xml"
     )
 
     #twilio_client.account.sms.messages.create(
@@ -44,7 +44,7 @@ class Entry < ActiveRecord::Base
   end
 
   def twilio_client
-    @twilio_client ||= Twilio::REST::Client.new(TWILIO_SID, TWILIO_TOKEN)
+    @twilio_client ||= Twilio::REST::Client.new((ENV['TWILIO_SID'] || TWILIO_SID), (ENV['TWILIO_TOKEN'] || TWILIO_TOKEN))
   end
 
   def formatted_mobile_number
